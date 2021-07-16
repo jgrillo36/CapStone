@@ -1,0 +1,2 @@
+# sequelize model:generate --name users --attributes fName:string,lName:string,phone:integer,email:string
+# sequelize model:generate --name stores --attributes itemId:integer,itemName:string,price:integer,size:string,description:string,pic:string
