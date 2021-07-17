@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "postgres",
-    "password": null,
-    "database": "Whiskers",
-    "host": "127.0.0.1",
+    "username": "ejxholrj",
+    "password": "1hMSEqkmyjSE2q4rnQCmDYKKwDd8smh8",
+    "database": "ejxholrj",
+    "host": "batyr.db.elephantsql.com",
     "dialect": "postgres"
   }
 }
