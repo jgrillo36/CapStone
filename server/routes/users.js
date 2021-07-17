@@ -11,6 +11,9 @@ router.get('/users/all', async (req, res) => {  //first api call
 })
 
 
+//router.post()
+//let records = await db.create({firstName: ''})
+
 
 
 
