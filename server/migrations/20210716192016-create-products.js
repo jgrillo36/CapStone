@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       image: {
-        type: Sequelize.JSON
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
