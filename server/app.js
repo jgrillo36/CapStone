@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 
 
 app.use(require('./routes/users'))
-//app.use(require('./routes/newuser'))
+app.use(require('./routes/products'))
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
 
