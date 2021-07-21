@@ -21,7 +21,6 @@ router.get('/users/all', async (req, res) => {  //first api call
 })
 
 
-
   //router.post()
 //let records = await db.create({firstName: ''})
 
@@ -33,10 +32,6 @@ router.post('/users/newuser', async (req, res) => {
     
       let result = await db.users.create({firstName, lastName, email, phoneNumber, password:passwordEncrypted, createdAt: new Date(), updatedAt: new Date()});
         console.log(result)
-
-    //   //let records = await db.create({firstName: ''})
-    //   let records = await db.users.findAll();
-    //   res.json({data: records})
 
     //   res.redirect('/users')
 
