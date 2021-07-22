@@ -15,6 +15,7 @@ const corsOptions = {
 const port = process.env.PORT || 3001;
 
 
+
 app.use(express.urlencoded({ extended: false })); //scrape email and pass from request header
 app.use(express.json());
 app.use(cors(corsOptions))
