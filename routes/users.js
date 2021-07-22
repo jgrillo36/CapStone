@@ -58,7 +58,8 @@ router.post('/users/newuser', async (req, res) => {
       const passwordEncrypted = bcrypt.hashSync(password, 8)
     
       let result = await db.users.create({firstName, lastName, email, phoneNumber, password:passwordEncrypted, createdAt: new Date(), updatedAt: new Date()});
-        console.log(result)
+        console.log('return', result.users.dataValues)
+        return result.users.dataValues
 
     //   res.redirect('/users')
 
