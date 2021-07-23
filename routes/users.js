@@ -1,6 +1,10 @@
-const express = require('express')
-const router = express.Router()
-const bcrypt = require('bcryptjs')
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jwt-simple');
+const passport = require('passport');
+const requireLogin = passport.authenticate("local", { session: false });
+const requireJwt = passport.authenticate("jwt", { session: false });
 
 
 const db = require('../models')
@@ -8,7 +12,12 @@ const db = require('../models')
 //scrape from header for our post
 router.use(express.urlencoded({extended: false}));
 router.use(express.json());
+require("../auth");
 
+const createToken = (user) => {
+  const timestamp = new Date().getTime();
+  return jwt.encode({ sub: user.id, iat: timestamp }, "jibberish");
+};
 
 router.get('/users/all', async (req, res) => {  //first api call
     try {
@@ -20,29 +29,8 @@ router.get('/users/all', async (req, res) => {  //first api call
     }
 })
 
-router.post('/users/login', async (req, res)=> {
-  let {email, password} = req.body;
-  try{
-      
-      const user = await db.users.findAll({
-        where: {
-          email: email,   
-        },
-      });
-  
-      const hashPassword = await bcrypt.compare(password, user[0].dataValues.password);
-      
-      if (user[0].dataValues && hashPassword){
-        const userProfile = await db.users.findByPk(user[0].dataValues.id)
-        res.json(userProfile)
-      }else {
-        res.json({message: 'email or password is incorrect'})
-      }
-      
-  }
-  catch(error){
-    res.send('no user identified')
-  }
+router.post('/users/login', requireLogin, async (req, res)=> {
+  res.json({ token: createToken(req.user), currentUser: req.user });
 })
 
 
@@ -53,13 +41,16 @@ router.post('/users/login', async (req, res)=> {
 
 router.post('/users/newuser', async (req, res) => {
     try{
-        console.log(req.body)
       let {email, firstName, lastName, password, phoneNumber} = req.body;
       const passwordEncrypted = bcrypt.hashSync(password, 8)
     
       let result = await db.users.create({firstName, lastName, email, phoneNumber, password:passwordEncrypted, createdAt: new Date(), updatedAt: new Date()});
-        console.log('return', result.users.dataValues)
-        return result.users.dataValues
+        console.log('return', result.dataValues)
+        const jwtToken = createToken(result.dataValues)
+        console.log('jwtToken', jwtToken)
+        res.json({token: jwtToken})
+        // return result.users.dataValues
+        
 
     //   res.redirect('/users')
 
